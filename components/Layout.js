@@ -12,7 +12,7 @@ const Layout = ({children}) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header className={styles.header}>
-        <img src="/images/profile.png" className={utilstyles.borderCircle}/>
+        <img src="/images/profile.png" alt="profile" className={utilstyles.borderCircle}/>
         <h1 className={utilstyles.heading2Xl}>{ name }</h1>
       </header>
       <main>{children}</main>
