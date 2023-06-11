@@ -1,26 +1,36 @@
+import Head from 'next/head'
 import Layout from "../../components/Layout";
-import { getPostsAllIds } from "../../lib/post";
+import utilStyles from '../../styles/utils.module.css'
+import { getAllPostIds,getPostData } from "../../lib/post";
+
 export async function getStaticPaths(){
-  const paths = getPostsAllIds();
+  const paths = getAllPostIds();
   return {
-    props:{
       paths,
-      fallback: true,
-    },
+      fallback: false,
   }
 }
 
 export async function getStaticProps({ params }){
-  const allPostsData = getPostsData();
-  return {
-    props:{
-      allPostsData,
-    },
-  }
+  const postData = await getPostData(params.id);
+    return {
+      props: {
+        postData,
+      }
+    }
 }
 
-export default function Post(){
+export default function Post({postData}){
   return(
-    <Layout>動的ルーティング設定</Layout>
+    <Layout>
+      <Head>
+        <title>{postData.title}</title>
+      </Head>
+      <article>
+        <h1 className={utilStyles.headingXl}>{postData.title}</h1>
+        <div className={utilStyles.lightText}>{postData.date}</div>
+        <div dangerouslySetInnerHTML={{__html: postData.blogContentHTML}}></div>
+      </article>
+    </Layout>
   );
 }
